@@ -22,10 +22,10 @@ metadata:
   name: my-nginx
   annotations:
     # Our special annotation to tell AVP where the secrets are
-    avp.kubernetes.io/path: "ocivault"
-    avp.kubernetes.io/secret-version: "latest"
+    # avp.kubernetes.io/path: "ocivault"
+    # avp.kubernetes.io/secret-version: "2"
 data:  
-  MY_SECRET: <demo-secret>
+  MY_SECRET: <path:ocivault#demo-secret#2>
 ---
 apiVersion: apps/v1
 kind: Deployment
