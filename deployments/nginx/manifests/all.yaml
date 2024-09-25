@@ -25,7 +25,7 @@ metadata:
     # avp.kubernetes.io/path: "ocivault"
     # avp.kubernetes.io/secret-version: "2"
 data:  
-  MY_SECRET: <path:ocivault#demo-secret#2>
+  MY_SECRET: <path:ocivault#demo-secret>
 ---
 apiVersion: apps/v1
 kind: Deployment
