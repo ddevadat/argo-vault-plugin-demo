@@ -23,7 +23,7 @@ metadata:
   annotations:
     # Our special annotation to tell AVP where the secrets are
     avp.kubernetes.io/path: "ocivault"
-    avp.kubernetes.io/secret-version: "1"
+    avp.kubernetes.io/secret-version: "latest"
 data:  
   MY_SECRET: <demo-secret>
 ---
