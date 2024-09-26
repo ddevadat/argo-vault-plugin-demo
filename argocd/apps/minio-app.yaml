@@ -26,8 +26,8 @@ spec:
       name: argocd-vault-plugin-helm
       env:
         - name: helm_args
-          # value: -f ../../deployments/helm-values/minio/minio-values.yaml
-          value: -f minio-values.yaml
+          value: -f ../../deployments/helm-values/minio/minio-values.yaml
+          # value: -f minio-values.yaml
 
       # name: argocd-vault-helm-inline-values
       # env:

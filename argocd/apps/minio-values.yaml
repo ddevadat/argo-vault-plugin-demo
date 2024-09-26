@@ -1,4 +1,0 @@
-commonAnnotations:
-  reloader.stakater.com/auto: "true"
-auth:
-  rootPassword: <path:ocivault#minio-admin-password | base64decode>
