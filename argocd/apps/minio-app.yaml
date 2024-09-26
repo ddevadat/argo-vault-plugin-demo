@@ -18,6 +18,15 @@ metadata:
   name: minio
   namespace: argocd
 spec:
+  source:
+    repoURL: registry-1.docker.io/bitnamicharts
+    chart: minio
+    targetRevision: 14.7.10
+    plugin:
+      name: argocd-vault-plugin-helm
+      env:
+        - name: helm_args
+          value: '-f ../../deployments/helm-values/minio/minio-values.yaml'
   destination:
     namespace: default
     server: https://kubernetes.default.svc 
@@ -26,23 +35,10 @@ spec:
     syncOptions:
       - CreateNameSpace=true
     automated:
-      prune: false
-      selfHeal: false
-  source:
-    repoURL: registry-1.docker.io/bitnamicharts
-    chart: minio
-    targetRevision: 14.7.10
-    plugin:
-      name: argocd-vault-helm-inline-values
-      env:
-        # These are the arguments we pass to "helm template"
-        - name: HELM_VALUES
-          value: |
-            commonAnnotations:
-              reloader.stakater.com/auto: "true"
-            auth:
-              rootPassword: <path:ocivault#minio-admin-password#4 | base64decode>
-              
+      prune: true
+      selfHeal: true
+
+
 
 # --- 
 # apiVersion: argoproj.io/v1alpha1
@@ -51,15 +47,6 @@ spec:
 #   name: minio
 #   namespace: argocd
 # spec:
-#   source:
-#     repoURL: registry-1.docker.io/bitnamicharts
-#     chart: minio
-#     targetRevision: 14.7.10
-#     plugin:
-#       name: argocd-vault-helm
-#       env:
-#         - name: HELM_ARGS
-#           value: -f ../../helm/minio/minio-values.yaml
 #   destination:
 #     namespace: default
 #     server: https://kubernetes.default.svc 
@@ -70,11 +57,21 @@ spec:
 #     automated:
 #       prune: false
 #       selfHeal: false
-  # sources:
-  # - repoURL: https://github.com/ddevadat/argo-vault-plugin-demo.git
-  #   targetRevision: HEAD
-  #   ref: values
-
+#   source:
+#     repoURL: registry-1.docker.io/bitnamicharts
+#     chart: minio
+#     targetRevision: 14.7.10
+#     plugin:
+#       name: argocd-vault-helm-inline-values
+#       env:
+#         # These are the arguments we pass to "helm template"
+#         - name: HELM_VALUES
+#           value: |
+#             commonAnnotations:
+#               reloader.stakater.com/auto: "true"
+#             auth:
+#               rootPassword: <path:ocivault#minio-admin-password#4 | base64decode>
+              
 
 
 # --- 

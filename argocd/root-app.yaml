@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: 'https://github.com/ddevadat/argo-vault-plugin-demo'
     targetRevision: HEAD
-    path: argocd/apps/nginx
+    path: argocd/apps/
     plugin:
       name: argocd-vault
   syncPolicy:
