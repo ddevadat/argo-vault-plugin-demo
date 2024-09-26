@@ -7,6 +7,12 @@ spec:
     namespace: default
     server: https://kubernetes.default.svc 
   project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNameSpace=true
+    automated:
+      prune: false
+      selfHeal: false
   source:
     repoURL: 'https://github.com/ddevadat/argo-vault-plugin-demo'
     targetRevision: HEAD
