@@ -23,10 +23,20 @@ spec:
     chart: minio
     targetRevision: 14.7.10
     plugin:
-      name: argocd-vault-plugin-helm
+      # name: argocd-vault-plugin-helm
+      # env:
+      #   - name: helm_args
+      #     value: '-f ../../deployments/helm-values/minio/minio-values.yaml'
+
+      name: argocd-vault-helm-inline-values
       env:
-        - name: helm_args
-          value: '-f ../../deployments/helm-values/minio/minio-values.yaml'
+        # These are the arguments we pass to "helm template"
+        - name: HELM_VALUES
+          value: |
+            commonAnnotations:
+              reloader.stakater.com/auto: "true"
+            auth:
+              rootPassword: <path:ocivault#minio-admin-password#4 | base64decode>
   destination:
     namespace: default
     server: https://kubernetes.default.svc 
