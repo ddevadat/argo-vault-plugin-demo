@@ -11,34 +11,34 @@ stringData:
   type: helm
   enableOCI: "true"
 
---- 
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: minio
-  namespace: argocd
-spec:
-  destination:
-    namespace: default
-    server: https://kubernetes.default.svc 
-  project: default
-  syncPolicy:
-    syncOptions:
-      - CreateNameSpace=true
-    automated:
-      prune: false
-      selfHeal: false
-  source:
-    repoURL: registry-1.docker.io/bitnamicharts
-    chart: minio
-    targetRevision: 14.7.10
-    plugin:
-      name: argocd-vault-helm
-      env:
-        # These are the arguments we pass to "helm template"
-        - name: HELM_VALUES
-          value: |
-            commonAnnotations:
-              reloader.stakater.com/auto: "true"
-            auth:
-              rootPassword: <path:ocivault#minio-admin-password#4 | base64decode>
+# --- 
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: minio
+#   namespace: argocd
+# spec:
+#   destination:
+#     namespace: default
+#     server: https://kubernetes.default.svc 
+#   project: default
+#   syncPolicy:
+#     syncOptions:
+#       - CreateNameSpace=true
+#     automated:
+#       prune: false
+#       selfHeal: false
+#   source:
+#     repoURL: registry-1.docker.io/bitnamicharts
+#     chart: minio
+#     targetRevision: 14.7.10
+#     plugin:
+#       name: argocd-vault-helm
+#       env:
+#         # These are the arguments we pass to "helm template"
+#         - name: HELM_VALUES
+#           value: |
+#             commonAnnotations:
+#               reloader.stakater.com/auto: "true"
+#             auth:
+#               rootPassword: <path:ocivault#minio-admin-password#4 | base64decode>
