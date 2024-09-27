@@ -17,6 +17,8 @@ kind: Application
 metadata:
   name: minio
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
   source:
     repoURL: registry-1.docker.io/bitnamicharts
