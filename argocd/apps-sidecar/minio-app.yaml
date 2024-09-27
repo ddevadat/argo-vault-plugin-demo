@@ -1,0 +1,146 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    argocd.argoproj.io/secret-type: repository
+  name: bitnami-minio-helm-oci
+  namespace: argocd
+stringData:
+  url: registry-1.docker.io/bitnamicharts
+  name: minio
+  type: helm
+  enableOCI: "true"
+
+--- 
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: argocd
+spec:
+  source:
+    repoURL: registry-1.docker.io/bitnamicharts
+    chart: minio
+    targetRevision: 14.7.10
+    plugin:
+      name: argocd-vault-plugin-helm
+      env:
+        - name: HELM_ARGS
+          value: '-f ../../deployments/helm-values/minio/minio-values.yaml'
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc 
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNameSpace=true
+    automated:
+      prune: true
+      selfHeal: true
+
+
+
+# --- 
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: minio
+#   namespace: argocd
+# spec:
+#   destination:
+#     namespace: default
+#     server: https://kubernetes.default.svc 
+#   project: default
+#   syncPolicy:
+#     syncOptions:
+#       - CreateNameSpace=true
+#     automated:
+#       prune: false
+#       selfHeal: false
+#   source:
+#     repoURL: registry-1.docker.io/bitnamicharts
+#     chart: minio
+#     targetRevision: 14.7.10
+#     plugin:
+#       name: argocd-vault-helm-inline-values
+#       env:
+#         # These are the arguments we pass to "helm template"
+#         - name: HELM_VALUES
+#           value: |
+#             commonAnnotations:
+#               reloader.stakater.com/auto: "true"
+#             auth:
+#               rootPassword: <path:ocivault#minio-admin-password#4 | base64decode>
+              
+
+
+# --- 
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: minio
+#   namespace: argocd
+# spec:
+#   destination:
+#     namespace: default
+#     server: https://kubernetes.default.svc 
+#   project: default
+#   syncPolicy:
+#     syncOptions:
+#       - CreateNameSpace=true
+#     automated:
+#       prune: false
+#       selfHeal: false
+#   source:
+#     repoURL: registry-1.docker.io/bitnamicharts
+#     chart: minio
+#     targetRevision: 14.7.10
+#     plugin:
+#       # name: argocd-vault-plugin-helm
+#       # env:
+#       #   - name: helm_args
+#       #     # value: $values/helm/minio/minio-values.yaml
+#       #     value: '-f minio-values.yaml'
+
+#       name: argocd-vault-helm-inline-values
+#       env:
+#         # These are the arguments we pass to "helm template"
+#         - name: HELM_VALUES
+#           value: |
+#             $values/helm/minio/minio-values.yaml
+
+#   sources:
+#   - repoURL: https://github.com/ddevadat/argo-vault-plugin-demo.git
+#     targetRevision: HEAD
+#     ref: values
+# --- 
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: minio
+#   namespace: argocd
+# spec:
+#   destination:
+#     namespace: default
+#     server: https://kubernetes.default.svc 
+#   project: default
+#   syncPolicy:
+#     syncOptions:
+#       - CreateNameSpace=true
+#     automated:
+#       prune: false
+#       selfHeal: false
+#   source:
+#     repoURL: registry-1.docker.io/bitnamicharts
+#     chart: minio
+#     targetRevision: 14.7.10
+#     plugin:
+#       name: argocd-vault-helm-inline-values
+#       env:
+#         # These are the arguments we pass to "helm template"
+#         - name: HELM_VALUES
+#           value: |
+#             commonAnnotations:
+#               reloader.stakater.com/auto: "true"
+#             auth:
+#               rootPassword: <path:ocivault#minio-admin-password#4 | base64decode>
